@@ -1,1 +1,5 @@
+# compiled binaries
 *.out
+
+# core dumps
+core
