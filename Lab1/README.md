@@ -2,10 +2,5 @@
 
 ## Compiling from source
 
-To compile the program, simply run
-
-```bash
-make
-```
-
+To compile the program, simply run `make` in the current lab's root directory.
 The binary file will be placed in the `bin/` folder.
