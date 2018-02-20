@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include <tuple>
 #include <unordered_map>
+#include <vector>
 
 // C headers
 #include <cstdio>
@@ -26,14 +26,19 @@
 struct User {
     char _username[20] = {0};
     char _password[34] = {0};
-    int _balance;
+    int _checking_balance;
+    int _savings_balance;
+
     User(const std::string& username,
          const std::string& password,
-         const int& balance) {
+         const int& checking_balance,
+         const int& savings_balance) {
         strcpy(_username,username.c_str());
         strcpy(_password,password.c_str());
-        _balance = balance;
+        _checking_balance = checking_balance;
+        _savings_balance = savings_balance;
     }
+ 
 };
 
 typedef std::unordered_map<std::string,User> user_store;
@@ -41,15 +46,15 @@ typedef std::unordered_map<std::string,User> user_store;
 std::string salt("0123456789abcdef");
 
 // create some users
-User a("Alice",md5("hunter2"+salt),97);
-User b("Bob",md5("pa$$w0rd"+salt),47);
-User c("Candice",md5("CorrectHorseBatteryStaple"+salt),68);
+User a("Alice",md5("hunter2"+salt),97,300);
+User b("Bob",md5("pa$$w0rd"+salt),47,25);
+User c("Candice",md5("CorrectHorseBatteryStaple"+salt),68,47);
 
 // initialize in-memory user store
 user_store ustore({
-    {a._username, a},
-    {b._username, b},
-    {c._username, c},
+    {std::string(a._username), a},
+    {std::string(b._username), b},
+    {std::string(c._username), c},
 }); 
 
 
@@ -57,7 +62,7 @@ user_store ustore({
 bool authenticate(const std::string& username,
                   const std::string& password) {
 
-    auto res = ustore.find(username.c_str());
+    auto res = ustore.find(username);
     if(res != ustore.end()) {
         std::string pwd_hash(md5(password+salt));    
         if(strcmp(res->second._password,pwd_hash.c_str()) == 0) {
@@ -65,40 +70,164 @@ bool authenticate(const std::string& username,
         }
     }
 
-    return false;
+    return false; 
 
 }
 
-// Check a user's account balance
-void check_acc_balance(const std::string& username,
-                       const std::string& password) {
+// Check account balance (checking or savings)
+void check_account_balance(const std::string& username,
+                           const std::string& account) {
 
-    if(authenticate(username,password)) {
-       
+    if(account.compare("checking") == 0) {
+        std::cout << "$" << ustore.at(username)._checking_balance  << std::endl;
+        return;    
+    }
 
-
+    if(account.compare("savings") == 0) {
+        std::cout << "$" << ustore.at(username)._savings_balance  << std::endl;
+        return;    
     }
 
     return;
+
+}
+
+// Withdraw from account (checking or savings)
+void withdraw_from_account(const std::string& username,
+                           const std::string& account) {
+   
+    if(account.compare("checking") == 0) {
+
+        
+
+        return;        
+    }
+
+    if(account.compare("savings") == 0) {
+        return;
+    }
+
+    return;
+
+}
+
+// Menu for checking a user's account balance 
+void account_balance(const std::string& username) {
+
+    int choice = 0;
+    bool persist = true;
+
+    std::system("clear");
+
+    std::cout << std::endl;
+    std::cout << "*********************************" << std::endl;
+    std::cout << "**       Account Balance      ***" << std::endl;
+    std::cout << "*********************************" << std::endl << std::endl;
+    
+    std::cout << "1. Checking" << std::endl;
+    std::cout << "2. Savings" << std::endl;
+    std::cout << "3. Back" << std::endl;
+
+    while(persist) {
+    
+        std::cout << std::endl << ">> ";
+        std::cin >> choice;
+
+        while(std::cin.fail()) {
+
+            std::cout << std::endl << "Invalid input. Please try again." << std::endl << std::endl;
+            std::cin.clear();
+            std::cin.ignore(256,'\n');
+
+            std::cout << std::endl << ">> ";
+            std::cin >> choice;
+
+        }
+        
+        switch(choice) {
+        
+            case 1:
+                check_account_balance(username,"checking");
+                break;
+
+            case 2:
+                check_account_balance(username,"savings");
+                break;
+
+            case 3:
+                std::cout << std::endl << "Quitting..." << std::endl << std::endl;
+                persist = false;
+                break;
+
+            default:
+                std::cout << std::endl << "Invalid input. Please try again." << std::endl << std::endl;
+                break;
+
+        }
+
+    }
 
 }
 
 // Withdraw money from a user's account
-void withdraw(const std::string& username,
-              const std::string& password) {
+void withdrawal(const std::string& username) {
 
-    if(authenticate(username,password)) {
+    int choice = 0;
+    bool persist = true;
+
+    std::system("clear");
+
+    std::cout << std::endl;
+    std::cout << "*********************************" << std::endl;
+    std::cout << "**         Withdrawal         ***" << std::endl;
+    std::cout << "*********************************" << std::endl << std::endl;
     
+    std::cout << "1. Checking account" << std::endl;
+    std::cout << "2. Savings account" << std::endl;
+    std::cout << "3. Back" << std::endl;
+
+    while(persist) {
+    
+        std::cout << std::endl << ">> ";
+        std::cin >> choice;
+
+        while(std::cin.fail()) {
+
+            std::cout << std::endl << "Invalid input. Please try again." << std::endl << std::endl;
+            std::cin.clear();
+            std::cin.ignore(256,'\n');
+
+            std::cout << std::endl << ">> ";
+            std::cin >> choice;
+
+        }
         
+        switch(choice) {
+        
+            case 1:
+                withdraw_from_account(username,"checking");
+                break;
+
+            case 2:
+                withdraw_from_account(username,"savings");
+                break;
+
+            case 3:
+                std::cout << std::endl << "Quitting..." << std::endl << std::endl;
+                persist = false;
+                break;
+
+            default:
+                std::cout << std::endl << "Invalid input. Please try again." << std::endl << std::endl;
+                break;
+
+        }
 
     }
-
-    return;
 
 }
 
 void set_stdin_echo(bool enable = true) {
-
 #ifdef WIN32
     HANDLE h_stdin = GetStdHandle(STD_INPUT_HANDLE);
     DWORD mode;
@@ -123,7 +252,6 @@ void set_stdin_echo(bool enable = true) {
 
     (void) tcsetattr(STDIN_FILENO, TCSANOW, &tty);
 #endif
-
 }
 
 int main(int argc, char* argv[]) { 
@@ -163,10 +291,50 @@ restart:
     std::cout << "**  Ultrasecure Savings Bank  ***" << std::endl;
     std::cout << "*********************************" << std::endl << std::endl;
     
-    std::cout << "1. Check account balance." << std::endl;
-    std::cout << "2. Make a withdrawal." << std::endl;
-    std::cout << "3. Quit." << std::endl;
+    std::cout << "1. Check account balance" << std::endl;
+    std::cout << "2. Make a withdrawal" << std::endl;
+    std::cout << "3. Quit" << std::endl;
+
+    while(persist) {
     
+        std::cout << std::endl << ">> ";
+        std::cin >> choice;
+
+        while(std::cin.fail()) {
+
+            std::cout << std::endl << "Invalid input. Please try again." << std::endl << std::endl;
+            std::cin.clear();
+            std::cin.ignore(256,'\n');
+
+            std::cout << std::endl << ">> ";
+            std::cin >> choice;
+
+        }
+        
+        switch(choice) {
+        
+            case 1:
+                account_balance(username);
+                goto restart;
+                break;
+
+            case 2:
+                withdrawal(username);
+                goto restart;
+                break;
+
+            case 3:
+                std::cout << std::endl << "Quitting..." << std::endl << std::endl;
+                persist = false;
+                break;
+
+            default:
+                std::cout << std::endl << "Invalid input. Please try again." << std::endl << std::endl;
+                break;
+
+        }
+
+    }
 
 //    int i = 500;
 //
