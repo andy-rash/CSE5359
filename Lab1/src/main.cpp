@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
-#include <vector>
 
 // C headers
 #include <cstdio>
+#include <cstdlib>
 
 /*
  * non-STD headers
@@ -46,9 +46,9 @@ typedef std::unordered_map<std::string,User> user_store;
 std::string salt("0123456789abcdef");
 
 // create some users
-User a("Alice",md5("hunter2"+salt),97,300);
-User b("Bob",md5("pa$$w0rd"+salt),47,25);
-User c("Candice",md5("CorrectHorseBatteryStaple"+salt),68,47);
+User a("Alice",md5("hunter2"+salt),970,300);
+User b("Bob",md5("pa$$w0rd"+salt),470,250);
+User c("Candice",md5("CorrectHorseBatteryStaple"+salt),680,470);
 
 // initialize in-memory user store
 user_store ustore({
@@ -95,15 +95,33 @@ void check_account_balance(const std::string& username,
 // Withdraw from account (checking or savings)
 void withdraw_from_account(const std::string& username,
                            const std::string& account) {
-   
+  
+    int withdraw_amount = 0;
+    int withdraw_limit = 400;
+    std::string input;
+
+    std::cout << "Enter withdrawal amount: $";
+    std::cin >> input;
+    std::cout << std::endl;
+
+    if(atoi(input.c_str()) > withdraw_limit) {
+        std::cout << "There is a withdraw limit of $400." << std::endl;
+        std::cout << "Transaction cancelled." << std::endl;
+        return;
+    }
+
+    std::cout << "You withdrew: $";
+    printf(input.c_str(), (int *) &withdraw_amount);
+
     if(account.compare("checking") == 0) {
-
-        
-
+        ustore.at(username)._checking_balance -= withdraw_amount;
+        printf("Your remaining balance is: $%d\n", ustore.at(username)._checking_balance);
         return;        
     }
 
     if(account.compare("savings") == 0) {
+        ustore.at(username)._savings_balance -= withdraw_amount;
+        printf("Your remaining balance is: $%d\n", ustore.at(username)._savings_balance);
         return;
     }
 
