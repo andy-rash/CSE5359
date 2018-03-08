@@ -3,3 +3,7 @@
 
 # core dumps
 core
+
+# temp files
+.DS_Store
+*.swp
