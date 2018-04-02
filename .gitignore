@@ -7,3 +7,6 @@ core
 # temp files
 .DS_Store
 *.swp
+
+# Java class fiels
+*.class
