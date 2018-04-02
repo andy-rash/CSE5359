@@ -15,17 +15,25 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.*;
 
 public class SimpleWebServer {
 
     /* Run the HTTP server on this TCP port. */
     private static final int PORT = 8080;
+    
+    /* Maximum file size in bytes */
+    private static final long MAX_FILE_SIZE = 5000000;
  
     /* The socket used to process incoming connections from web clients */
     private static ServerSocket dServerSocket;
 
+    /* Logger configuration*/
+    private static Logger logger = Logger.getLogger("SimpleWebServer");
+
     public SimpleWebServer() throws Exception {
         dServerSocket = new ServerSocket(PORT);
+        logger.addHandler(new FileHandler("error_log"));
     }
 
     public void run() throws Exception {
@@ -113,11 +121,20 @@ public class SimpleWebServer {
         /* if the requested file can be successfully opened
          * and read, then return an OK response code and
          * send the contents of the file */
-        osw.write("HTTP/1.0 200 OK\n\n");
         while(c != -1) {
+
+            /* Kicks back a 403 response if the buffer exceeds
+             * the designated maximum length*/
+            if(sb.length() > MAX_FILE_SIZE) {
+                logger.log(Level.INFO, "Attempted download of file exceeding maximum file size limit.");
+                osw.write("HTTP/1.0 403 Forbidden\n\n");
+                return;
+            }
+
             sb.append((char)c);
             c = fr.read();
         }
+        osw.write("HTTP/1.0 200 OK\n\n");
         osw.write(sb.toString());
     
     }
@@ -125,7 +142,6 @@ public class SimpleWebServer {
     /* This method is called when the program is run from
      * the command line. */
     public static void main(String argv[]) throws Exception {
-
         /* Create a SimpleWebServer object, and run it */
         SimpleWebServer sws = new SimpleWebServer();
         sws.run();
