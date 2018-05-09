@@ -5,7 +5,8 @@ This is a semester project for Software Security (CSE 5359), wherein I've implem
 ## Requirements
 
 * `Python` — see [here](https://www.python.org/downloads/release/python-365/) for installation instructions
-	* must be version >= 3.6 	
+	* preferred version >= 3.6
+	* may work with earlier versions, but this is untested
 * `Pipenv` — see [here](https://github.com/pypa/pipenv) for installation instructions
 * `SQLite` — see [here](https://www.sqlite.org/download.html) for installation instructions
 
@@ -26,5 +27,5 @@ pipenv install
 After this has completed, run the application with
 
 ```bash
-(SemesterProject-FlrlsoRi) python address_book.py
+python main.py
 ```
