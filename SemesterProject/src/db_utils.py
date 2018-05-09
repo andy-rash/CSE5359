@@ -1,11 +1,11 @@
 from contextlib import contextmanager
-from models import Base
+from .models import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 # Database configuration
 sqlite_file_name = 'address_book.db'
-sqlite_file_path = f'../data/{sqlite_file_name}'
+sqlite_file_path = f'./data/{sqlite_file_name}'
 
 engine = create_engine(f'sqlite:///{sqlite_file_path}')
 Session = sessionmaker(bind=engine)
@@ -30,6 +30,8 @@ def session_manager():
     except:
         session.rollback()
         raise
+    else:
+        session.commit()
     finally:
         session.close()
 
