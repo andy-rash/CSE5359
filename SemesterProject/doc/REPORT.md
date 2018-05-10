@@ -1,5 +1,9 @@
 # Report: Address Book CLI
 
+Author: Robert Rash
+
+This is a semester project for Software Security (CSE 5359), wherein I've implemented a command line address book program. The overarching goal of this assignment is input validation: ensure that only those names and phone numbers that meet the desired specifications are entered into the database. This document outlines the program's architecture, the "desired specifications", and discusses some pros and cons of these decisions.
+
 ## Program Architecture
 
 ### `src/address_book.py`
