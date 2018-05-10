@@ -15,9 +15,10 @@ class AddressBook(object):
 		name = self.__validator.name(name)
 		phone_number = self.__validator.phone_number(phone_number)
 
-		# check if data already exists in database;
-		# fail gracefully if it does
 		with session_manager() as session:
+
+			# check if data already exists in database;
+			# fail gracefully if it does
 			result = session.query(
 				Listing
 			).filter(
@@ -30,8 +31,7 @@ class AddressBook(object):
 			if result is not None:
 				sys.exit('Entry already exists in database.')
 
-		# insert into database
-		with session_manager() as session:
+			# insert into database
 			new_listing = Listing(
 				name=name,
 				number_plan=phone_number[0],
