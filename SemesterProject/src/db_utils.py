@@ -16,11 +16,10 @@ Base.metadata.create_all(bind=engine, checkfirst=True)
 @contextmanager
 def session_manager():
 	'''
-	Provides a transactional scope around database operations.
+		Provides a transactional scope around database operations.
 
-	This has been adapted from the SQLAlchemy Documentation here:
-	http://docs.sqlalchemy.org/en/latest/orm/session_basics.html
-
+		This has been adapted from the SQLAlchemy Documentation here:
+		http://docs.sqlalchemy.org/en/latest/orm/session_basics.html
 	'''
 
 	session = Session()
