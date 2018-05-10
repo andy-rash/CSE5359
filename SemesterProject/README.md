@@ -1,6 +1,6 @@
-# CSE 5359 - Semester Project: Telephone Listing CLI
+# CSE 5359 - Semester Project: Address Book CLI
 
-This is a semester project for Software Security (CSE 5359), wherein I've implemented a command line telephone listing program. The overarching goal of this assignment is input validation: ensure that only those names and phone numbers that meet the desired specifications are entered into the database.
+This is a semester project for Software Security (CSE 5359), wherein I've implemented a command line address book program. The overarching goal of this assignment is input validation: ensure that only those names and phone numbers that meet the desired specifications are entered into the database.
 
 ## Requirements
 
@@ -56,6 +56,6 @@ The commands are as follows:
 * `-l`, `--list`
 	* lists all listings in the database in tabular form
 
-## Input Policies
+## Documentation
 
-See the documentation outlined [here](./doc/REQUIREMENTS.md) for a rationale as to the input policies.
+See the `doc/` directory for all documentation, including a [report](./doc/REPORT.md) describing the program's architecture, assumptions that have been made, as well as an evaluation as to the pros and cons of these design decisions.
