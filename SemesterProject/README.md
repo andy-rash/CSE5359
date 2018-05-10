@@ -12,20 +12,50 @@ This is a semester project for Software Security (CSE 5359), wherein I've implem
 
 ## Getting started
 
-Once requirements are installed, create the proper virtual environment with
+Once requirements are installed, create the proper virtual environment with:
 
 ```bash
 pipenv --three
 ```
 
-Then install dependencies with
+Then, create a virtualenv shell with:
+
+```bash
+pipenv shell
+```
+
+Then, install dependencies with:
 
 ```bash
 pipenv install
 ```
 
-After this has completed, run the application with
+After this has completed, run the application with:
 
 ```bash
 python main.py
 ```
+
+...making sure to give a proper command line flag.
+
+## Command Line Interface
+
+Only one command may be entered at a time.
+
+The commands are as follows:
+
+* `-a "<person>" "<phone number>"`, `--add "<person>" "<phone number>"`
+	* adds a listing to the address book 
+
+* `-dp "<person>"`, `--delete-person "<person>"`
+	* deletes a listing from the address book by name
+	 
+* `-dn "<phone number>"`, `--delete-number "<phone number>"`
+	* deletes a listing from the address book by phone number 
+
+* `-l`, `--list`
+	* lists all listings in the database in tabular form
+
+## Input Policies
+
+See the documentation outlined [here](./doc/REQUIREMENTS.md) for a rationale as to the input policies.
