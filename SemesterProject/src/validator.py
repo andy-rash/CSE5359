@@ -4,7 +4,8 @@ from enum import Enum
 from .regular_expressions import (
 	E164_REGEX,
 	NAME_REGEX,
-	NANP_REGEX
+	NANP_REGEX,
+	NORMALIZE_REGEX
 )
 
 class Validator(object):
@@ -30,7 +31,8 @@ class Validator(object):
 			Allows the phone number input to be fairly permissive in what is
 			allowed as input without sacrificing proper validation.
 		'''
-		return re.sub(r'[^\d+]', '', phone_number)
+		#return re.sub(r'[^\d+]', '', phone_number)
+		return NORMALIZE_REGEX.sub('', phone_number)
 
 	def phone_number(self, phone_number: str) -> str:
 		'''
