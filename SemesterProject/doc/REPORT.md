@@ -36,6 +36,8 @@ Names vary significantly the world over. They can take all kinds of shapes and f
 
 This blacklist takes the form of excluding a character class containing common punctuation. There is some punctuation, however, that is not included in the blacklist, such as characters in the range `[.,"-']`, which are all used commonly in names or in formatting names.
 
+This is an incredibly permissive policy; it allows almost any kind of data in. However, in addition to filtering out symbols that are commonly used in injection attacks, input is also escaped before being entered into the database. This provides a very robust system for filtering out attempts at malicious injection through input fields.
+
 The regular expression used for names is as follows:
 
 ```python
@@ -45,8 +47,7 @@ The regular expression used for names is as follows:
 $
 '''
 ```
-
-This is an incredibly permissive policy; it allows almost any kind of data in. However, in addition to filtering out symbols that are commonly used in injection attacks, input is also escaped before being entered into the database. This provides a very robust system for filtering out attempts at malicious injection through input fields.
+This regular expression matches any line that does **NOT** contain any of the characters `\0\r\n\t!@#$%^&*_+=(){}[]<>\|;:/?`.
 
 ### Phone numbers
 
@@ -166,6 +167,8 @@ The regular expression used for NANP numbers is as follows:
 $
 '''
 ```
+This regular expression allows an optional `+1` or `1`, with the rest consisting of capture groups conforming to each of the NANP guidelines described above.
+
 
 #### ITU E.164
 
@@ -205,6 +208,7 @@ The regular expression used for ITU E.164 numbers is as follows:
 $
 '''
 ```
+This regular expression has a non-capturing group to catch the requisite `+`, a capturing group containing all known country calling codes excluding `+1` (scraped from the Wikipedia page for country calling codes), and a final capturing group containing the remaining numeric characters.
 
 ### Pros and Cons
 
