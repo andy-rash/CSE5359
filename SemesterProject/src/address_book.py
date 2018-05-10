@@ -3,7 +3,7 @@ from .db_utils import session_manager
 from .models import Listing
 from sqlalchemy import or_
 from tabulate import tabulate
-from .validators import Validator
+from .validator import Validator
 
 class AddressBook(object):
 
@@ -24,7 +24,7 @@ class AddressBook(object):
 			).filter(
 				or_(
 					Listing.name == name,
-					Listing.phone_number == phone_number[1]
+					Listing.phone_number == phone_number
 				)
 			).one_or_none()
 
@@ -34,8 +34,7 @@ class AddressBook(object):
 			# insert into database
 			new_listing = Listing(
 				name=name,
-				number_plan=phone_number[0],
-				phone_number=phone_number[1]
+				phone_number=phone_number
 			)
 
 			session.add(new_listing)
@@ -62,10 +61,10 @@ class AddressBook(object):
 			session.query(
 				Listing
 			).filter(
-				Listing.phone_number == phone_number[1]
+				Listing.phone_number == phone_number
 			).delete()
 
-			print(f'Successfully deleted entry with phone number: +{phone_number[1]}')
+			print(f'Successfully deleted entry with phone number: +{phone_number}')
 
 	def list(self):
 		with session_manager() as session:

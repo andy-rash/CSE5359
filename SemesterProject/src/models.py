@@ -14,7 +14,6 @@ class Listing(Base):
 	__tablename__ = 'listings'
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	name = Column(String(255), nullable=False, unique=True)
-	number_plan = Column(String(5), nullable=False)
 	phone_number = Column(String(16), nullable=False, unique=True)
 
 	def __init__(self, **kwargs):

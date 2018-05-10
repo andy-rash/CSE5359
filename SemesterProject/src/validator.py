@@ -32,7 +32,7 @@ class Validator(object):
 		'''
 		return re.sub(r'[^\d+]', '', phone_number)
 
-	def phone_number(self, phone_number: str) -> (str):
+	def phone_number(self, phone_number: str) -> str:
 		'''
 			Validates a phone number.
 
@@ -45,11 +45,11 @@ class Validator(object):
 
 		nanp = NANP_REGEX.match(normalized)
 		if nanp is not None:
-			return ('NANP', '1'+nanp[1]+nanp[2]+nanp[3])
+			return '1'+nanp[1]+nanp[2]+nanp[3]
 		else:
 			e164 = E164_REGEX.match(normalized)
 			if e164 is not None:
-				return ('E164', e164[1]+e164[2])
+				return e164[1]+e164[2]
 
 		sys.exit(
 			'Provided phone number could not be validated.\nTry entering the number in the form `XXX-XXX-XXXX` (North America) or `+XXXXXXXXXXXXXXX` (international).'
